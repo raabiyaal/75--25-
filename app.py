@@ -3,7 +3,8 @@ from dash import Dash, dcc, html
 import plotly.graph_objects as go
 
 # Load data once at startup (relative path)
-df = pd.read_csv("./Data_75-25.csv")
+df = pd.read_csv("Data 75%-25%.csv")
+
 df.columns = [col.strip(" `") for col in df.columns]
 df['Period'] = pd.to_datetime(df['Period'])
 df['Spread_mult100'] = df['Spread'] * 100
