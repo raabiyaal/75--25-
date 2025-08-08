@@ -1,11 +1,12 @@
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+from streamlit_javascript import st_javascript
 
-# Page config: wide layout
+# Set Streamlit page layout wide
 st.set_page_config(layout="wide")
 
-# Remove default padding via CSS
+# Remove default Streamlit padding
 st.markdown("""
     <style>
         .block-container {
@@ -17,7 +18,19 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# File path
+# Get viewport height from browser using JavaScript (returns a string)
+viewport_height_str = st_javascript("window.innerHeight")
+
+# Convert viewport height to int, fallback to 700 if failed
+try:
+    viewport_height = int(viewport_height_str)
+except (TypeError, ValueError):
+    viewport_height = 700
+
+# You can subtract some pixels if you want margin (optional)
+chart_height = viewport_height - 100  # leave 100px for other UI elements
+
+# File path to your Excel file
 file_path = "Data 75%-25%.xlsx"
 
 # Read and clean data
@@ -65,7 +78,7 @@ for label, y_val in lines.items():
         hoverinfo='skip'
     ))
 
-# Layout
+# Update layout with dynamic height
 fig.update_layout(
     title=dict(
         text='Estimates of the Credit Curve Spread: 75% – 25% LTVs<br>Mortgage Loans for the Years 1996 through 1Q 2025',
@@ -90,8 +103,8 @@ fig.update_layout(
     template='plotly_white',
     legend=dict(y=0.99, x=0.01),
     margin=dict(t=60, l=60, r=40, b=60),
-    height=900  # make it tall to avoid scrolling
+    height=chart_height
 )
 
-# Display full-width chart
+# Display plotly chart with full container width
 st.plotly_chart(fig, use_container_width=True)
