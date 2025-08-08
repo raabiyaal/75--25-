@@ -2,18 +2,28 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-# Set Streamlit page layout
+# Page config: wide layout
 st.set_page_config(layout="wide")
 
-# File path (update this to a relative path when deploying to Render)
-file_path = "Data 75%-25%.xlsx"  # NOTE: Make sure this Excel file is in the same folder on Render
+# Remove default padding via CSS
+st.markdown("""
+    <style>
+        .block-container {
+            padding-top: 0rem;
+            padding-bottom: 0rem;
+            padding-left: 0rem;
+            padding-right: 0rem;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# File path
+file_path = "Data 75%-25%.xlsx"
 
 # Read and clean data
 df = pd.read_excel(file_path)
 df.columns = [col.strip(" `") for col in df.columns]
 df['Period'] = pd.to_datetime(df['Period'])
-
-# Multiply y-axis data by 100
 df['Spread_mult100'] = df['Spread'] * 100
 
 # Horizontal line values
@@ -55,7 +65,7 @@ for label, y_val in lines.items():
         hoverinfo='skip'
     ))
 
-# Layout and styling
+# Layout
 fig.update_layout(
     title=dict(
         text='Estimates of the Credit Curve Spread: 75% – 25% LTVs<br>Mortgage Loans for the Years 1996 through 1Q 2025',
@@ -80,8 +90,8 @@ fig.update_layout(
     template='plotly_white',
     legend=dict(y=0.99, x=0.01),
     margin=dict(t=60, l=60, r=40, b=60),
-    height=600
+    height=900  # make it tall to avoid scrolling
 )
 
-# Display plot in Streamlit
+# Display full-width chart
 st.plotly_chart(fig, use_container_width=True)
