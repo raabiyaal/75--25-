@@ -21,14 +21,17 @@ st.markdown("""
 # Get viewport height from browser using JavaScript (returns a string)
 viewport_height_str = st_javascript("window.innerHeight")
 
-# Convert viewport height to int, fallback to 700 if failed
+# Convert viewport height to int, fallback to None if failed
 try:
     viewport_height = int(viewport_height_str)
 except (TypeError, ValueError):
-    viewport_height = 700
+    viewport_height = None
 
-# You can subtract some pixels if you want margin (optional)
-chart_height = viewport_height - 100  # leave 100px for other UI elements
+# Ensure chart_height is always a valid positive number
+if viewport_height and viewport_height > 150:
+    chart_height = viewport_height - 100  # leave some space for UI elements
+else:
+    chart_height = 700  # fallback default height
 
 # File path to your Excel file
 file_path = "Data 75%-25%.xlsx"
