@@ -2,14 +2,12 @@ import pandas as pd
 from dash import Dash, dcc, html
 import plotly.graph_objects as go
 
-# Load data
-file_path = "Data 75%-25%.xlsx"
-df = pd.read_excel(file_path)
+# Load data once at startup (relative path)
+df = pd.read_csv("./Data_75-25.csv")
 df.columns = [col.strip(" `") for col in df.columns]
 df['Period'] = pd.to_datetime(df['Period'])
 df['Spread_mult100'] = df['Spread'] * 100
 
-# Horizontal lines data
 lines = {
     'Average Spread: x': df['x'].iloc[0] * 100,
     'Average Spread: x + σ': df['x + s'].iloc[0] * 100,
@@ -22,7 +20,6 @@ line_styles = {
     'Average Spread: x – σ': dict(dash='dot'),
 }
 
-# Create figure
 def create_figure():
     fig = go.Figure()
 
@@ -73,21 +70,19 @@ def create_figure():
         template='plotly_white',
         legend=dict(y=0.99, x=0.01),
         margin=dict(t=60, l=60, r=40, b=60),
-        height=900  # fixed height to avoid scroll issues
+        height=900  # fixed height to avoid scrollbars
     )
-
     return fig
 
-# Initialize Dash app
 app = Dash(__name__)
 
 app.layout = html.Div([
     dcc.Graph(
         id='spread-graph',
         figure=create_figure(),
-        style={'height': '90vh'}  # optional: set height relative to viewport height
+        style={'height': '90vh'}  # nearly fullscreen height relative to viewport
     )
 ])
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run_server(debug=False, host='0.0.0.0', port=8050)
