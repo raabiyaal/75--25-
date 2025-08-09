@@ -52,8 +52,9 @@ app.layout = html.Div([
     dcc.Graph(figure=fig, style={'width': '90%', 'height': '80vh', 'margin': 'auto'})
 ])
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8050))  # default 8050 if not set
-    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
+if __name__ == '__main__':
+    import os
+    port = int(os.environ.get("PORT", 8050))  # Get port from environment variable, fallback 8050
+    app.run(host='0.0.0.0', port=port, debug=False)
 
 
