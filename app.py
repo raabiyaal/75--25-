@@ -1,6 +1,7 @@
 import pandas as pd
 from dash import Dash, dcc, html
 import plotly.graph_objects as go
+import os 
 
 # Load data inside the app file
 file_path = r"Data 75%-25%.xlsx"
@@ -52,6 +53,7 @@ app.layout = html.Div([
 ])
 
 if __name__ == "__main__":
-    app.run(debug=False, port=8051)
+    port = int(os.environ.get("PORT", 8051))
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
 
 
