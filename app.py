@@ -17,7 +17,8 @@ fig.add_trace(go.Scatter(
     y=df['Spread'],
     mode='lines',
     line=dict(color='green', width=2),
-    name='Spot Spread: 75% – 25%'
+    name='Spot Spread: 75% – 25%',
+    hovertemplate='%{y:.1%}<extra></extra>'
 ))
 
 fig.add_hline(
@@ -43,9 +44,18 @@ fig.add_hline(
 )
 
 fig.update_layout(
-    yaxis_title=r'Estimated Annual Interest Expense ($k_d$)',  # subscript fixed with raw string
+    yaxis_title=r'Estimated Annual Interest Expense (k<sub>d</sub>)',
     yaxis=dict(range=[0, 0.1], tickformat=".0%", dtick=0.01),
-    legend=dict(font=dict(size=12)),
+    legend=dict(
+        font=dict(size=12),
+        bgcolor='rgba(255,255,255,0.8)',
+        bordercolor='black',
+        borderwidth=1,
+        x=0.01,  # legend x position (near left)
+        y=0.99,  # legend y position (near top)
+        yanchor='top',
+        xanchor='left'
+    ),
     template='simple_white',
     showlegend=True
 )
@@ -55,5 +65,5 @@ app.layout = html.Div([
 ])
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 8050))  # Get port from environment variable, fallback 8050
+    port = int(os.environ.get("PORT", 8050))
     app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
