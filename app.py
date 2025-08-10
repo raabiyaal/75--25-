@@ -24,37 +24,36 @@ fig.add_hline(
     y=df['`x'].iloc[0],
     line=dict(color='green', dash='dash', width=2),
     annotation_text="Average Spread: x̄",
-    annotation_position="top left"
+    annotation_position="top left",
+    name="Average Spread: x̄"
 )
 fig.add_hline(
     y=df['`x + s'].iloc[0],
     line=dict(color='green', dash='dot', width=2),
     annotation_text="Average Spread: x̄ + σ",
-    annotation_position="top left"
+    annotation_position="top left",
+    name="Average Spread: x̄ + σ"
 )
 fig.add_hline(
     y=df['`x – s'].iloc[0],
     line=dict(color='green', dash='dot', width=2),
     annotation_text="Average Spread: x̄ – σ",
-    annotation_position="bottom left"
+    annotation_position="bottom left",
+    name="Average Spread: x̄ – σ"
 )
 
 fig.update_layout(
-    title='Estimates of the Credit Curve Spread: 75% – 25% LTVs\nMortgage Loans for the Years 1996 through 1Q 2025',
-    yaxis_title='Estimated Annual Interest Expense ($k_d$)',
+    yaxis_title=r'Estimated Annual Interest Expense ($k_d$)',  # subscript fixed with raw string
     yaxis=dict(range=[0, 0.1], tickformat=".0%", dtick=0.01),
     legend=dict(font=dict(size=12)),
-    template='simple_white'
+    template='simple_white',
+    showlegend=True
 )
 
 app.layout = html.Div([
-    html.H1("Credit Curve Spread Dashboard", style={'textAlign': 'center'}),
     dcc.Graph(figure=fig, style={'width': '90%', 'height': '80vh', 'margin': 'auto'})
 ])
 
 if __name__ == '__main__':
-    import os
     port = int(os.environ.get("PORT", 8050))  # Get port from environment variable, fallback 8050
-    app.run(host='0.0.0.0', port=port, debug=False)
-
-
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
