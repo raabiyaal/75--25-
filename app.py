@@ -58,7 +58,7 @@ fig.update_layout(
         xanchor='left'
     ),
     template='simple_white',
-    showlegend=True
+    showlegend=True,
     margin=dict(t=30, b=20, l=20, r=20)
 )
 
