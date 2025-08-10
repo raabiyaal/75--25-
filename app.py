@@ -59,6 +59,7 @@ fig.update_layout(
     ),
     template='simple_white',
     showlegend=True
+    margin=dict(t=30, b=20, l=20, r=20)
 )
 
 app.layout = html.Div([
